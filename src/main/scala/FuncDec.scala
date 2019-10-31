@@ -190,6 +190,22 @@ object FuncDec {
     return j
   }
 
+  def closure2(): Unit ={
+    val fs = new Array[()=>Int](4)
+    def set(i:Int) { fs(i) = () => i }
+    var j = 0
+    while(j < 4) {set(j); j=j+1}
+    fs.foreach( f => println(f()))
+  }
+
+
+  def closure1(): Unit ={
+    val fs = new Array[()=>Int](4)
+    var i = 0
+    while(i < 4)  { fs(i) = () => i; i=i+1}
+    fs.foreach( f => println(f()))
+  }
+
 
 
 

@@ -1,4 +1,11 @@
+import java.io.FileReader
+import java.io.FileNotFoundException
+import java.io.IOException
+
 import org.apache.spark.sql.{Row, SparkSession}
+
+
+
 
 object SparkTest {
 
@@ -12,10 +19,22 @@ object SparkTest {
           //.enableHiveSupport()
           .getOrCreate()
 
-    //读取csv文件
-    val csv1="/Users/zhangxu35/Desktop/scala_test_data.csv"
-    val data_df=spark.read.format("csv").option("header","true").load(csv1)
+    var csv1 = ""
+    try {
+      //读取csv文件
+      csv1="/Users/zhangxu35/Desktop/scala_test_data.csv"
 
+    }
+    catch {
+      case ex: FileNotFoundException => {
+        println("Missing file exception")
+      }
+      case ex: IOException => {
+        println("IO Exception")
+      }
+    }
+
+    val data_df=spark.read.format("csv").option("header","true").load(csv1)
     //存入df
     data_df.createOrReplaceTempView("scala_test_data_df")
 
@@ -31,7 +50,7 @@ object SparkTest {
     import spark.sql
 
     val sql_str =
-    """
+    s"""
       |select * from $resultTable
     """.stripMargin
     print(sql_str)
