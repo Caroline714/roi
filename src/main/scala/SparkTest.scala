@@ -2,7 +2,7 @@ import java.io.FileReader
 import java.io.FileNotFoundException
 import java.io.IOException
 
-import org.apache.spark.sql.{Row, SparkSession}
+import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 
 
 
@@ -19,11 +19,11 @@ object SparkTest {
           //.enableHiveSupport()
           .getOrCreate()
 
-    var csv1 = ""
+    var data_df:DataFrame=null
     try {
       //读取csv文件
-      csv1="/Users/zhangxu35/Desktop/scala_test_data.csv"
-
+      val csv1="/Users/zhangxu35/Desktop/scala_test_data.csv"
+      data_df=spark.read.format("csv").option("header","true").load(csv1)
     }
     catch {
       case ex: FileNotFoundException => {
@@ -34,7 +34,6 @@ object SparkTest {
       }
     }
 
-    val data_df=spark.read.format("csv").option("header","true").load(csv1)
     //存入df
     data_df.createOrReplaceTempView("scala_test_data_df")
 

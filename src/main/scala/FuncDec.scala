@@ -68,6 +68,18 @@ object FuncDec {
   var fs = printf("11.浮点型变量为 " + "%f, 整型变量为 %d, 字符串为 " + " %s", 3.4, 10, "aaa")
   println(fs)
 
+  val dt="2019-10-10"
+  val s_str=s"select * from tb where dt=$dt"
+
+  val sssss=
+    """fdskaflhsadfdas
+      |fdsakfadsfas
+      |ljfsdajfdsa
+      |fdsafldasjlfdas
+      |fdsafdsafdsafda
+    """.stripMargin
+
+
 
   //*************************** 数组 ***************************
   //
@@ -125,23 +137,8 @@ object FuncDec {
   def addVar(a:Int, b:Int, c:Double = 0.4) : Double = {
       var sum : Double = 0.0    //可变变量声明用var
       sum = a + b + c
-      return sum  // 'return' 可以省略
+      sum  // 'return' 可以省略
     }
-
-
-
-
-  //************************* 场景2 *************************
-  //                     支持自身递归调用
-  //===================>>> 函数嵌套调用 <<<====================
-  def printMe(s: String) : Unit = {
-      print(s)
-  }
-  def delayed( f: String => Unit,s: String) = {
-    f(s)
-  }
-
-
 
 
   //************************* 场景3 *************************
@@ -180,9 +177,9 @@ object FuncDec {
   var sumFuc = (a:Int,b:Int,c:Double) => a+b+c
 
 
-
-
   //************************* 场景6 *************************
+  //
+  //    函数内部的变量不在其作用于时，仍然可以从外部进行访问
   //
   //====================>>> scala闭包 <<<====================
   def multiplier(i:Int): Int = {
@@ -190,74 +187,7 @@ object FuncDec {
     return j
   }
 
-  def closure2(): Unit ={
-    val fs = new Array[()=>Int](4)
-    def set(i:Int) { fs(i) = () => i }
-    var j = 0
-    while(j < 4) {set(j); j=j+1}
-    fs.foreach( f => println(f()))
-  }
 
-
-  def closure1(): Unit ={
-    val fs = new Array[()=>Int](4)
-    var i = 0
-    while(i < 4)  { fs(i) = () => i; i=i+1}
-    fs.foreach( f => println(f()))
-  }
-
-
-
-
-  //************************* 场景7 *************************
-  //
-  //=====================>>> 类的继承 <<<=====================
-//  class Location(override val xc: Int, override val yc: Int,
-//                 val zc :Int) extends ClassTest(xc, yc){
-//    var z: Int = zc
-//    def move(dx: Int, dy: Int, dz: Int) {
-//      x = x + dx
-//      y = y + dy
-//      z = z + dz
-//      println ("x 的坐标点 : " + x);
-//      println ("y 的坐标点 : " + y);
-//      println ("z 的坐标点 : " + z);
-//    }
-//  }
-
-
-
-  //************************* 场景8 *************************
-  //
-  //=====================>>> 伴生对象 <<<=====================
-  // 私有构造方法
-  class Marker private(val color:String) {
-    println("15.创建伴生对象：" + this)
-    override def toString(): String = "颜色标记："+ color
-
-  }
-  // 伴生对象，与类名字相同，可以访问类的私有属性和方法
-  object Marker{
-
-    private val markers: Map[String, Marker] = Map(
-      "red" -> new Marker("red"),
-      "blue" -> new Marker("blue"),
-      "green" -> new Marker("green")
-    )
-
-    def apply(color:String) = {
-      if(markers.contains(color)) markers(color) else null
-    }
-
-    def getMarker(color:String) = {
-      if(markers.contains(color)) markers(color) else null
-    }
-    def main(args: Array[String]) {
-      println("16."+Marker("red"))
-      // 单例函数调用，省略了.(点)符号
-      println(Marker getMarker "blue")
-    }
-  }
 
 
 
@@ -287,7 +217,7 @@ object FuncDec {
       case Person("Alice", 25) => println("Hi Alice!")
       case Person("Bob", 32) => println("Hi Bob!")
       case Person(name, age) =>
-        println("17.Age: " + age + " year, name: " + name + "?")
+        println("18.Age: " + age + " year, name: " + name + "?")
     }
   }
 
