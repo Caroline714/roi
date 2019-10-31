@@ -4,7 +4,7 @@ object SparkTest {
 
   def main(args: Array[String]): Unit = {
 
-    //本地spark环境配置
+    //spark环境配置
     val spark = SparkSession
           .builder().master("local")
           .appName("test")
@@ -20,9 +20,23 @@ object SparkTest {
     data_df.createOrReplaceTempView("scala_test_data_df")
 
 
+    saveToFile(spark,"app_ai_trade_scala_test_result")
+
 
     //释放spark资源
-    spark.stop()
+//    spark.stop()
+  }
+
+  def saveToFile(spark: SparkSession, resultTable: String):Unit={
+    import spark.sql
+
+    val sql_str =
+    """
+      |select * from $resultTable
+    """.stripMargin
+    print(sql_str)
+
+    val sql_df = sql(sql_str)
   }
 
 }
